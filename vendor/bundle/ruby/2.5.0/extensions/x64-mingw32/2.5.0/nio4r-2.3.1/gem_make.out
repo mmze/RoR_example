@@ -1,0 +1,14 @@
+current directory: c:/sites/hello/vendor/bundle/ruby/2.5.0/gems/nio4r-2.3.1/ext/nio4r
+C:/Ruby25-x64/bin/ruby.exe -r ./siteconf20181205-6780-aowuh2.rb extconf.rb
+
+current directory: c:/sites/hello/vendor/bundle/ruby/2.5.0/gems/nio4r-2.3.1/ext/nio4r
+make "DESTDIR=" clean
+make: *** Нет правила для сборки цели «clean».  Останов.
+
+current directory: c:/sites/hello/vendor/bundle/ruby/2.5.0/gems/nio4r-2.3.1/ext/nio4r
+make "DESTDIR="
+make: Цель «all» не требует выполнения команд.
+
+current directory: c:/sites/hello/vendor/bundle/ruby/2.5.0/gems/nio4r-2.3.1/ext/nio4r
+make "DESTDIR=" install
+make: Цель «install» не требует выполнения команд.
