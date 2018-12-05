@@ -31,3 +31,5 @@
 /config/master.key
 
 /spring/*.pid
+# ignore vendor file
+/vendor/*
