@@ -11,13 +11,13 @@ NULLCMD = :
 
 #### Start of system configuration section. ####
 
-srcdir = .
-topdir = /C/Ruby25-x64/include/ruby-2.5.0
+srcdir = wdm_ext
+topdir = /home/nafiron/.rbenv/versions/2.5.1/include/ruby-2.5.0
 hdrdir = $(topdir)
-arch_hdrdir = C:/Ruby25-x64/include/ruby-2.5.0/x64-mingw32
+arch_hdrdir = /home/nafiron/.rbenv/versions/2.5.1/include/ruby-2.5.0/x86_64-linux
 PATH_SEPARATOR = :
 VPATH = $(srcdir):$(arch_hdrdir)/ruby:$(hdrdir)/ruby
-prefix = $(DESTDIR)/C/Ruby25-x64
+prefix = $(DESTDIR)/home/nafiron/.rbenv/versions/2.5.1
 rubysitearchprefix = $(rubylibprefix)/$(sitearch)
 rubyarchprefix = $(rubylibprefix)/$(arch)
 rubylibprefix = $(libdir)/$(RUBY_BASE_NAME)
@@ -31,8 +31,8 @@ rubyhdrdir = $(includedir)/$(RUBY_VERSION_NAME)
 vendorarchdir = $(vendorlibdir)/$(sitearch)
 vendorlibdir = $(vendordir)/$(ruby_version)
 vendordir = $(rubylibprefix)/vendor_ruby
-sitearchdir = $(DESTDIR)./.gem.20181205-8140-18ysab8
-sitelibdir = $(DESTDIR)./.gem.20181205-8140-18ysab8
+sitearchdir = $(DESTDIR)./.gem.20181206-3123-yrvkl4
+sitelibdir = $(DESTDIR)./.gem.20181206-3123-yrvkl4
 sitedir = $(rubylibprefix)/site_ruby
 rubyarchdir = $(rubylibdir)/$(arch)
 rubylibdir = $(rubylibprefix)/$(ruby_version)
@@ -54,7 +54,7 @@ oldincludedir = $(DESTDIR)/usr/include
 includedir = $(prefix)/include
 localstatedir = $(prefix)/var
 sharedstatedir = $(prefix)/com
-sysconfdir = $(DESTDIR)
+sysconfdir = $(prefix)/etc
 datadir = $(datarootdir)
 datarootdir = $(prefix)/share
 libexecdir = $(exec_prefix)/libexec
@@ -63,12 +63,12 @@ bindir = $(exec_prefix)/bin
 archdir = $(rubyarchdir)
 
 
-CC = x86_64-w64-mingw32-gcc
-CXX = x86_64-w64-mingw32-g++
-LIBRUBY = lib$(RUBY_SO_NAME).dll.a
+CC = gcc
+CXX = g++
+LIBRUBY = $(LIBRUBY_A)
 LIBRUBY_A = lib$(RUBY_SO_NAME)-static.a
-LIBRUBYARG_SHARED = -l$(RUBY_SO_NAME)
-LIBRUBYARG_STATIC = -l$(RUBY_SO_NAME)-static
+LIBRUBYARG_SHARED = -Wl,-rpath,$(libdir) -L$(libdir) 
+LIBRUBYARG_STATIC = -Wl,-rpath,$(libdir) -L$(libdir) -l$(RUBY_SO_NAME)-static
 empty =
 OUTFLAG = -o $(empty)
 COUTFLAG = -o $(empty)
@@ -77,33 +77,33 @@ CSRCFLAG = $(empty)
 RUBY_EXTCONF_H = 
 cflags   = $(optflags) $(debugflags) $(warnflags)
 cxxflags = $(optflags) $(debugflags) $(warnflags)
-optflags = -O3 -fno-omit-frame-pointer
+optflags = -O3
 debugflags = -ggdb3
 warnflags = -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wno-tautological-compare -Wno-parentheses-equality -Wno-constant-logical-operand -Wno-self-assign -Wunused-variable -Wimplicit-int -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration -Wdeprecated-declarations -Wmisleading-indentation -Wno-packed-bitfield-compat -Wsuggest-attribute=noreturn -Wsuggest-attribute=format -Wimplicit-fallthrough=0 -Wduplicated-cond -Wrestrict
-CCDLFLAGS = 
-CFLAGS   = $(CCDLFLAGS) -march=x86-64 -mtune=generic -O2 -pipe $(ARCH_FLAG)
+CCDLFLAGS = -fPIC
+CFLAGS   = $(CCDLFLAGS) $(cflags) $(ARCH_FLAG)
 INCFLAGS = -I. -I$(arch_hdrdir) -I$(hdrdir)/ruby/backward -I$(hdrdir) -I$(srcdir)
-DEFS     = -D_FILE_OFFSET_BITS=64
-CPPFLAGS = -DHAVE_WINDOWS_H -DHAVE_RUBY_H -DHAVE_CONST_HAVE_RUBY_ENCODING_H -DHAVE_RB_THREAD_CALL_WITHOUT_GVL -D_FORTIFY_SOURCE=2 -D__USE_MINGW_ANSI_STDIO=1 -DFD_SETSIZE=2048 -D_WIN32_WINNT=0x0501 -D__MINGW_USE_VC2005_COMPAT $(DEFS) $(cppflags)
-CXXFLAGS = $(CCDLFLAGS) -march=x86-64 -mtune=generic -O2 -pipe $(ARCH_FLAG)
-ldflags  = -L. -pipe -s
-dldflags = -pipe -s -Wl,--enable-auto-image-base,--enable-auto-import $(DEFFILE) 
+DEFS     = 
+CPPFLAGS =  -I/home/nafiron/.rbenv/versions/2.5.1/include  $(DEFS) $(cppflags)
+CXXFLAGS = $(CCDLFLAGS) $(cxxflags) $(ARCH_FLAG)
+ldflags  = -L. -L/home/nafiron/.rbenv/versions/2.5.1/lib  -fstack-protector -rdynamic -Wl,-export-dynamic
+dldflags = -L/home/nafiron/.rbenv/versions/2.5.1/lib  -Wl,--compress-debug-sections=zlib 
 ARCH_FLAG = 
 DLDFLAGS = $(ldflags) $(dldflags) $(ARCH_FLAG)
 LDSHARED = $(CC) -shared
 LDSHAREDXX = $(CXX) -shared
 AR = ar
-EXEEXT = .exe
+EXEEXT = 
 
 RUBY_INSTALL_NAME = $(RUBY_BASE_NAME)
-RUBY_SO_NAME = x64-msvcrt-ruby250
-RUBYW_INSTALL_NAME = $(RUBYW_BASE_NAME)
+RUBY_SO_NAME = ruby
+RUBYW_INSTALL_NAME = 
 RUBY_VERSION_NAME = $(RUBY_BASE_NAME)-$(ruby_version)
 RUBYW_BASE_NAME = rubyw
 RUBY_BASE_NAME = ruby
 
-arch = x64-mingw32
-sitearch = x64-msvcrt
+arch = x86_64-linux
+sitearch = $(arch)
 ruby_version = 2.5.0
 ruby = $(bindir)/$(RUBY_BASE_NAME)
 RUBY = $(ruby)
@@ -112,7 +112,7 @@ ruby_headers = $(hdrdir)/ruby.h $(hdrdir)/ruby/backward.h $(hdrdir)/ruby/ruby.h 
 RM = rm -f
 RM_RF = $(RUBY) -run -e rm -- -rf
 RMDIRS = rmdir --ignore-fail-on-non-empty -p
-MAKEDIRS = /usr/bin/mkdir -p
+MAKEDIRS = /bin/mkdir -p
 INSTALL = /usr/bin/install -c
 INSTALL_PROG = $(INSTALL) -m 0755
 INSTALL_DATA = $(INSTALL) -m 644
@@ -122,47 +122,14 @@ TOUCH = exit >
 #### End of system configuration section. ####
 
 preload = 
-libpath = . $(libdir)
-LIBPATH =  -L. -L$(libdir)
-DEFFILE = $(TARGET)-$(arch).def
-
-CLEANFILES = mkmf.log $(DEFFILE)
+CLEANFILES = mkmf.log
 DISTCLEANFILES = 
-DISTCLEANDIRS = 
 
-extout = 
-extout_prefix = 
-target_prefix = 
-LOCAL_LIBS = 
-LIBS = $(LIBRUBYARG_SHARED) -lkernel32  -lgmp -lshell32 -lws2_32 -liphlpapi -limagehlp -lshlwapi  
-ORIG_SRCS = entry.c memory.c monitor.c queue.c rb_change.c rb_monitor.c utils.c wdm.c
-SRCS = $(ORIG_SRCS) 
-OBJS = entry.o memory.o monitor.o queue.o rb_change.o rb_monitor.o utils.o wdm.o
-HDRS = $(srcdir)/entry.h $(srcdir)/memory.h $(srcdir)/monitor.h $(srcdir)/queue.h $(srcdir)/rb_change.h $(srcdir)/rb_monitor.h $(srcdir)/utils.h $(srcdir)/wdm.h
-LOCAL_HDRS = 
-TARGET = wdm_ext
-TARGET_NAME = wdm_ext
-TARGET_ENTRY = Init_$(TARGET_NAME)
-DLLIB = $(TARGET).so
-EXTSTATIC = 
-STATIC_LIB = 
-
-TIMESTAMP_DIR = .
-BINDIR        = $(bindir)
-RUBYCOMMONDIR = $(sitedir)$(target_prefix)
-RUBYLIBDIR    = $(sitelibdir)$(target_prefix)
-RUBYARCHDIR   = $(sitearchdir)$(target_prefix)
-HDRDIR        = $(rubyhdrdir)/ruby$(target_prefix)
-ARCHHDRDIR    = $(rubyhdrdir)/$(arch)/ruby$(target_prefix)
-TARGET_SO_DIR =
-TARGET_SO     = $(TARGET_SO_DIR)$(DLLIB)
-CLEANLIBS     = $(TARGET_SO) 
-CLEANOBJS     = *.o  *.bak
-
-all:    $(DLLIB)
-static: $(STATIC_LIB)
+all install static install-so install-rb: Makefile
+	@$(NULLCMD)
 .PHONY: all install static install-so install-rb
 .PHONY: clean clean-so clean-static clean-rb
+
 
 clean-static::
 clean-rb-default::
@@ -181,87 +148,3 @@ distclean: clean distclean-so distclean-static distclean-rb-default distclean-rb
 		-$(Q)$(RMDIRS) $(DISTCLEANDIRS) 2> /dev/null || true
 
 realclean: distclean
-install: install-so install-rb
-
-install-so: $(DLLIB) $(TIMESTAMP_DIR)/.sitearchdir.time
-	$(INSTALL_PROG) $(DLLIB) $(RUBYARCHDIR)
-clean-static::
-	-$(Q)$(RM) $(STATIC_LIB)
-install-rb: pre-install-rb do-install-rb install-rb-default
-install-rb-default: pre-install-rb-default do-install-rb-default
-pre-install-rb: Makefile
-pre-install-rb-default: Makefile
-do-install-rb:
-do-install-rb-default:
-pre-install-rb-default:
-	@$(NULLCMD)
-$(TIMESTAMP_DIR)/.sitearchdir.time:
-	$(Q) $(MAKEDIRS) $(@D) $(RUBYARCHDIR)
-	$(Q) $(TOUCH) $@
-
-site-install: site-install-so site-install-rb
-site-install-so: install-so
-site-install-rb: install-rb
-
-.SUFFIXES: .c .m .cc .mm .cxx .cpp .o .S
-
-.cc.o:
-	$(ECHO) compiling $(<)
-	$(Q) $(CXX) $(INCFLAGS) $(CPPFLAGS) $(CXXFLAGS) $(COUTFLAG)$@ -c $(CSRCFLAG)$<
-
-.cc.S:
-	$(ECHO) translating $(<)
-	$(Q) $(CXX) $(INCFLAGS) $(CPPFLAGS) $(CXXFLAGS) $(COUTFLAG)$@ -S $(CSRCFLAG)$<
-
-.mm.o:
-	$(ECHO) compiling $(<)
-	$(Q) $(CXX) $(INCFLAGS) $(CPPFLAGS) $(CXXFLAGS) $(COUTFLAG)$@ -c $(CSRCFLAG)$<
-
-.mm.S:
-	$(ECHO) translating $(<)
-	$(Q) $(CXX) $(INCFLAGS) $(CPPFLAGS) $(CXXFLAGS) $(COUTFLAG)$@ -S $(CSRCFLAG)$<
-
-.cxx.o:
-	$(ECHO) compiling $(<)
-	$(Q) $(CXX) $(INCFLAGS) $(CPPFLAGS) $(CXXFLAGS) $(COUTFLAG)$@ -c $(CSRCFLAG)$<
-
-.cxx.S:
-	$(ECHO) translating $(<)
-	$(Q) $(CXX) $(INCFLAGS) $(CPPFLAGS) $(CXXFLAGS) $(COUTFLAG)$@ -S $(CSRCFLAG)$<
-
-.cpp.o:
-	$(ECHO) compiling $(<)
-	$(Q) $(CXX) $(INCFLAGS) $(CPPFLAGS) $(CXXFLAGS) $(COUTFLAG)$@ -c $(CSRCFLAG)$<
-
-.cpp.S:
-	$(ECHO) translating $(<)
-	$(Q) $(CXX) $(INCFLAGS) $(CPPFLAGS) $(CXXFLAGS) $(COUTFLAG)$@ -S $(CSRCFLAG)$<
-
-.c.o:
-	$(ECHO) compiling $(<)
-	$(Q) $(CC) $(INCFLAGS) $(CPPFLAGS) $(CFLAGS) $(COUTFLAG)$@ -c $(CSRCFLAG)$<
-
-.c.S:
-	$(ECHO) translating $(<)
-	$(Q) $(CC) $(INCFLAGS) $(CPPFLAGS) $(CFLAGS) $(COUTFLAG)$@ -S $(CSRCFLAG)$<
-
-.m.o:
-	$(ECHO) compiling $(<)
-	$(Q) $(CC) $(INCFLAGS) $(CPPFLAGS) $(CFLAGS) $(COUTFLAG)$@ -c $(CSRCFLAG)$<
-
-.m.S:
-	$(ECHO) translating $(<)
-	$(Q) $(CC) $(INCFLAGS) $(CPPFLAGS) $(CFLAGS) $(COUTFLAG)$@ -S $(CSRCFLAG)$<
-
-$(TARGET_SO): $(DEFFILE) $(OBJS) Makefile
-	$(ECHO) linking shared-object $(DLLIB)
-	-$(Q)$(RM) $(@)
-	$(Q) $(LDSHARED) -o $@ $(OBJS) $(LIBPATH) $(DLDFLAGS) $(LOCAL_LIBS) $(LIBS)
-
-
-
-$(DEFFILE): 
-	$(ECHO) generating $(@)
-	$(Q) (echo EXPORTS && echo $(TARGET_ENTRY)) > $@
-
-$(OBJS): $(HDRS) $(ruby_headers)
